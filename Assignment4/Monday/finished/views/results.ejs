@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h3>Search Results:</h3>
+        <%
+        for ( var i = 0; i < people.length; i++ )
+        {
+            %>
+            <div style="float: left; display: inline; width: 220px; height: 500px; padding: 10px; margin: 4px; border: solid black 2px;">
+                <p><b><%=people[i].first_name %></b></p>
+                <p><b><%=people[i].last_name %></b></p>                
+                <p><b><%=people[i].age %></b></p>                
+            </div>
+            <%
+        }
+        %>
+        <br/>
+        <br/>
+        <br/>
+        <a href="/">back to search</a>
+    </body>
+</html>
