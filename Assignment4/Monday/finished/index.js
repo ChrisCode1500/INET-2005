@@ -25,6 +25,8 @@ const COLLECTION_NAME = process.env.COLLECTION_NAME;
 
 //create the app (new instance of ExpressJs, a minimalist framework) https://expressjs.com/
 var app = Express();
+//new
+const path = require('path');
 
 //neccessary in order to access request.body.xxxx properties
 app.use(Express.json());
@@ -33,6 +35,8 @@ app.use(Express.urlencoded({ extended: true }));
 // view engine setup
 app.set('views', './views');
 app.set("view engine", "ejs");
+//new
+app.use(Express.static(path.join(__dirname, 'views/js')));
 
 //create the server for the app, then call listen()
 const http = require('http').createServer(app);
@@ -86,6 +90,27 @@ app.post("/search", async (request, response) => {
         response.render('results', { people: people_list });
     }
 )
+
+app.get("/addnew", async (request, response) => {
+    response.render("addnew");
+});
+
+app.post("/people", async (request, response) => {
+
+    var first_name = (request.body.first_name ? request.body.first_name : '');
+    var last_name = (request.body.last_name ? request.body.last_name : '');
+    var age = (request.body.age ? request.body.age : '');
+
+    let person = {
+        "first_name": first_name,
+        "last_name": last_name,
+        "age": age
+    }
+
+    var result = await collection.insertOne(person);
+
+    response.render("submitted", { result: result });
+});
 
 //just an example of 401 Forbidden
 app.get("/jamie",
